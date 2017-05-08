@@ -12,6 +12,7 @@ var human = {//человек в казино(дилер или игрок)
         //alert(dealer.cards);
          var card = random_of_carts();
          card = card.toFixed(0);
+         //var card = 27;
          while(true)
          {
             if(check_black_list(card))
@@ -37,17 +38,19 @@ var human = {//человек в казино(дилер или игрок)
             {
                 first_enter = false;
                 dealer.score(dealer.cards[1]);
-                if(dealer.count_of_scores == 21)
+                if((dealer.count_of_scores == 21))//|| dealer.count_of_scores > player.count_of_scores
+                    {
                     setTimeout(function(){
                     var answer = confirm("Вы проиграли!Хотите сыграть ещё?");
                     if(answer == true)
                         location.reload();
                     else window.close();
                     },600);
+                    }
             }
         this.score(card);
         var bufer = this.count_of_scores;//буфер потому что на правую запись он в if-е не реагирует почему-то
-        if(this.count_of_scores <= 16)
+        if(this.count_of_scores <= 16 && value == "dealer")//второе добавил
             takeCard("dealer");
         if(dealer.count_of_scores > 16 && value.localeCompare("dealer") == 0)
             if(dealer.count_of_scores > player.count_of_scores && dealer.count_of_scores < 21)
@@ -114,8 +117,10 @@ var human = {//человек в казино(дилер или игрок)
     score: function(number){
         var number_of_space = cards[number].indexOf(" ");
         var digit = cards[number].substring(0, number_of_space);
+        if(digit.localeCompare("Ace") == 0 && this.count_of_scores + 11 >= 21)
+            this.count_of_scores = this.count_of_scores + 1;
         //alert(digit);//отлов NaN
-        this.count_of_scores = this.count_of_scores + values[digit];
+        else this.count_of_scores = this.count_of_scores + values[digit];
         if(this.role.localeCompare("player") == 0)
             document.getElementById("score_player").innerHTML = "Очки: " + this.count_of_scores;
         else document.getElementById("score_dealer").innerHTML = "Очки: " + this.count_of_scores;
@@ -277,14 +282,16 @@ function beginGame() {
     
     var first_card = random_of_carts();
     first_card = first_card.toFixed(0);
+    //first_card = 30;
     player.cards.push(first_card);
     black_list.push(first_card);
     var second_card = random_of_carts();
     second_card = second_card.toFixed(0);
-    //second_card = 3;
+    //second_card = 36;
     while(true)
         {
-            if(check_black_list(second_card))
+            var check = check_black_list(second_card);//это проверка на нахождение карты в ЧС. Функция ничего не возвращает
+            if(check === true)//я не понимаю, почему
                 second_card = random_of_carts();
             else 
                 {
@@ -293,7 +300,7 @@ function beginGame() {
                     break;
                 }
         }
-    alert(player.cards);
+   // alert(player.cards);
     document.getElementById("Player").innerHTML = "<img src = \"" + addresses[cards[player.cards[0]]] + "\">";//вывод карт игрока
     var table = document.getElementById("game");
     var row = document.createElement("tr");
@@ -302,7 +309,7 @@ function beginGame() {
     
     first_card = random_of_carts();
     first_card = first_card.toFixed(0);
-    //first_card = 29;
+    //first_card = 21;
     while(true)
         {
             if(check_black_list(first_card))
@@ -317,7 +324,7 @@ function beginGame() {
     black_list.push(first_card);
     second_card = random_of_carts();
     second_card = second_card.toFixed(0);
-    //second_card = 31;
+    //second_card = 6;
     while(true)
         {
             if(check_black_list(second_card))
@@ -335,7 +342,7 @@ function beginGame() {
     player.score(player.cards[0]);
     player.score(player.cards[1]);
     dealer.score(dealer.cards[0]);
-    alert(dealer.cards);
+    //alert(dealer.cards);
     //dealer.score(dealer.cards[1]);
     //alert(player.count_of_scores);
     //alert(dealer.count_of_scores);
@@ -370,8 +377,31 @@ function endGame(){
 function takeCard(value){
     if(value.localeCompare("player") == 0)
         player.takeCard(this, value);
+    if(value.localeCompare("dealer") == 0 && player.count_of_scores > dealer.count_of_scores && dealer.count_of_scores > 16){
+        setTimeout(function(){
+            var answer = confirm("Поздравляем, вы выиграли!Хотите сыграть ещё?");
+            if(answer == true)
+                location.reload();
+            else window.close();
+    },600)}
+    if(value.localeCompare("dealer") == 0 && player.count_of_scores < dealer.count_of_scores){
+            setTimeout(function(){
+            var answer = confirm("Вы проиграли!Хотите сыграть ещё?");
+            if(answer == true)
+                location.reload();
+            else window.close();
+        },600)}
     if(value.localeCompare("dealer") == 0 && dealer.count_of_scores <= 16)
         dealer.takeCard(this, value);
+    /*if (value.localeCompare("dealer") == 0){
+        setTimeout(function(){
+            var answer = confirm("Крупье больше не может брать карты.Поздравляем, вы выиграли!Хотите сыграть ещё?");
+            if(answer == true)
+                location.reload();
+            else window.close();
+            
+    },600);
+    }*/
 }
 
 function dealer_takes_cards(value, status){
