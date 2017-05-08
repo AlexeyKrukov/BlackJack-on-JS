@@ -12,7 +12,7 @@ var human = {//человек в казино(дилер или игрок)
         //alert(dealer.cards);
          var card = random_of_carts();
          card = card.toFixed(0);
-         //var card = 9;
+         //var card = 8;
          while(true)
          {
             if(check_black_list(card))
@@ -41,7 +41,7 @@ var human = {//человек в казино(дилер или игрок)
                 if((dealer.count_of_scores == 21))//|| dealer.count_of_scores > player.count_of_scores
                     {
                     setTimeout(function(){
-                    var answer = confirm("You lose!Want to play more?");
+                    var answer = confirm("Вы проиграли!Хотите сыграть ещё?");
                     if(answer == true)
                         location.reload();
                     else window.close();
@@ -53,10 +53,10 @@ var human = {//человек в казино(дилер или игрок)
         if(this.count_of_scores <= 16 && value == "dealer")//второе добавил
             takeCard("dealer");
         if(dealer.count_of_scores > 16 && value.localeCompare("dealer") == 0)
-            if(dealer.count_of_scores > player.count_of_scores && dealer.count_of_scores <= 21)//<
+            if(dealer.count_of_scores > player.count_of_scores && dealer.count_of_scores <= 21)
                 {   //alert("1");
                     setTimeout(function(){
-                    var answer = confirm("You lose!Want to play more?");
+                    var answer = confirm("Вы проиграли!Хотите сыграть ещё?");
                     if(answer == true)
                         location.reload();
                     else window.close();
@@ -65,7 +65,7 @@ var human = {//человек в казино(дилер или игрок)
             else {
                 //alert("2");
                 setTimeout(function(){
-                var answer = confirm("You won! Want to play more?");
+                var answer = confirm("Вы выиграли!Хотите сыграть ещё?");
                 if(answer == true)
                     location.reload();
                 else window.close();
@@ -75,7 +75,7 @@ var human = {//человек в казино(дилер или игрок)
         if(bufer > 21 && value.localeCompare("player") == 0)
         {
            // alert("3");
-            var answer = confirm("You lose!Want to play more?");
+            var answer = confirm("Вы проиграли!Хотите сыграть ещё?");
             if(answer == true)
                 location.reload();
             else window.close();
@@ -96,7 +96,7 @@ var human = {//человек в казино(дилер или игрок)
         if(bufer == 21 && value.localeCompare("player") == 0)
         {
             //alert("5");
-            var answer = confirm("You won! Want to play more?");
+            var answer = confirm("Вы выиграли!Хотите сыграть ещё?");
             if(answer == true)
                 location.reload();
             else window.close();
@@ -106,7 +106,7 @@ var human = {//человек в казино(дилер или игрок)
         if(bufer == 21 && value.localeCompare("dealer") == 0)
         {
             //alert("6");
-            var answer = confirm("You lose!Want to play more?");
+            var answer = confirm("Вы проиграли!Хотите сыграть ещё?");
             if(answer == true)
                 location.reload();
             else window.close();
@@ -324,7 +324,7 @@ function beginGame() {
     black_list.push(first_card);
     second_card = random_of_carts();
     second_card = second_card.toFixed(0);
-    //second_card = 5;
+    //second_card = 6;
     while(true)
         {
             if(check_black_list(second_card))
@@ -360,7 +360,7 @@ function beginGame() {
     setTimeout(function(){
         if(player.count_of_scores > 21)
         {
-            var answer = confirm("You lose!Want to play more?");
+            var answer = confirm("Вы проиграли!Хотите сыграть ещё?");
             if(answer == true)
                 location.reload();
             else window.close();
@@ -369,7 +369,7 @@ function beginGame() {
 }
 
 function endGame(){
-    var exit = confirm("Want to close page?");
+    var exit = confirm("Хотите закрыть страницу?");
     if(exit)
         window.close();
 }
@@ -379,14 +379,14 @@ function takeCard(value){
         player.takeCard(this, value);
     if(value.localeCompare("dealer") == 0 && player.count_of_scores > dealer.count_of_scores && dealer.count_of_scores > 16){
         setTimeout(function(){
-            var answer = confirm("You won!Want to play more?");
+            var answer = confirm("Поздравляем, вы выиграли!Хотите сыграть ещё?");
             if(answer == true)
                 location.reload();
             else window.close();
     },600)}
     if(value.localeCompare("dealer") == 0 && player.count_of_scores < dealer.count_of_scores){
             setTimeout(function(){
-            var answer = confirm("You lose!Want to play more?");
+            var answer = confirm("Вы проиграли!Хотите сыграть ещё?");
             if(answer == true)
                 location.reload();
             else window.close();
